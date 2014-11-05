@@ -19,15 +19,15 @@ public class Processor {
 	static String FILEROOT = "C:\\temp\\Development\\";
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
+	static List<String> features;
 	public static void main(String[] args) {
 		ARGS = args;
-		components = fillCollection();
+		features = fillCollection();
 		File file = new File("C:/Users/Timothy.Timothy-HP/Downloads/ChattingApp-master (1)/ChattingApp-master/src");
 		listFilesForFolder(file);
 	}
 	
 	public static void listFilesForFolder(final File folder) {
-		HashMap<String, String> components = fillCollection();
 	    for (final File fileEntry : folder.listFiles()) {
 	    	String filename = fileEntry.getName();
 	    	String filePath = fileEntry.getPath();
@@ -38,8 +38,10 @@ public class Processor {
 	        if (!extension.equals("java")) {
 	        	if (fileEntry.isDirectory()){
 	        		System.out.println(fileEntry.getName());
-	        		targetFile.mkdirs();
-	        		listFilesForFolder(fileEntry);
+	        		if (doesListContain(fileEntry.getName(), features)){
+		        		targetFile.mkdirs();
+		        		listFilesForFolder(fileEntry);
+	        		}
 	        	}else
 	        	{
 	        		writeFile(fileEntry, targetFile);
@@ -57,9 +59,7 @@ public class Processor {
 		List<String> annotatedVariables = new ArrayList<String>();
 		FileOutputStream output = null;
 		boolean processBit = true;
-		boolean foundAnnotationBit = false;
 		int bracketCount = 0;
-		int propertyCount = 0;
 		Type type = null;
 		
 		try{
@@ -88,23 +88,18 @@ public class Processor {
 							if(s.contains(";"))
 							{
 								processBit = true;
-								String annotatedV = s.substring(s.indexOf(" "), s.indexOf(";")).trim();
-								annotatedVariables.add(annotatedV);
+								String variable = s.substring(s.indexOf(" "), s.indexOf(";")).trim();
+								annotatedVariables.add(variable);
 							}
 						}
 				}
-				else{
-					boolean containsIllegalVariable = false;
-					for(String variable : annotatedVariables){
-						if (s.contains(variable))
-							containsIllegalVariable = true;
-					}
-					if (!containsIllegalVariable){
-						output.write(s.getBytes());
-						output.write(13);
-						output.write(10);
-					}
-				}				
+				else if (!doesListContain(s, annotatedVariables)){
+					output.write(s.getBytes());
+					output.write(13);
+					output.write(10);
+				} else{			
+					System.out.println(s);
+				}
 			}
 			//input.close();
 			output.flush();
@@ -182,11 +177,35 @@ public class Processor {
 		return processBit;
 	}
 	
-	private static HashMap fillCollection(){
+	private static List<String> fillCollection(){
+		List<String> features = new ArrayList<String>();
 		HashMap components = new HashMap<String, String>();
 		components.put("game", "TTTGame");
 		components.put("chatbot", "Bot");
 		components.put("history", "ChatHistory");
-		return components;
+		for(String values : ARGS)
+			features.add(components.get(values).toString());
+		
+		if (ARGS.length > 0)
+			features.add("comp");
+		features.add("com");
+		features.add("pla");
+		features.add("chatsys");
+		features.add("client");
+		features.add("server");
+		features.add(".svn");
+		features.add("prop-base");
+		features.add("text-base");
+		return features;
+	}
+	
+	private static boolean doesListContain(String value, List<String> names){
+		boolean contains = false;
+		for(String name : names)
+		{
+			if (name.contains(value))
+				contains = true;
+		}
+		return contains;
 	}
 }
