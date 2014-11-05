@@ -1,4 +1,4 @@
-bpackage com.annotations;
+package com.annotations;
 
 import java.io.BufferedReader;
 import java.io.File;
