@@ -23,7 +23,7 @@ public class Processor {
 	public static void main(String[] args) {
 		ARGS = args;
 		features = fillCollection();
-		File file = new File("C:/Users/Timothy.Timothy-HP/Downloads/ChattingApp-master (1)/ChattingApp-master/src");
+		File file = new File("C:/Users/Timothy.Timothy-HP/Documents/GitHub/Project/ChattingApplication/src");
 		listFilesForFolder(file);
 	}
 	
@@ -61,6 +61,7 @@ public class Processor {
 		FileOutputStream output = null;
 		boolean processBit = true;
 		int bracketCount = 0;
+		int parenthesisCount = 0;
 		Type type = null;
 		
 		try{
@@ -74,6 +75,11 @@ public class Processor {
 				if(s.contains("@ChattingAnnotation")){ 
 					type = determineType(s, type);
 					processBit = canProcess(s);
+				}
+				else if (isPropertyAnnotated(s, annotatedVariables))
+				{
+					type = Type.UNANNOTATED;
+					processBit = false;
 				}
 				if(!processBit){
 						if(type == Type.METHOD || type == Type.CLASS){
@@ -91,6 +97,15 @@ public class Processor {
 								processBit = true;
 								String variable = s.substring(s.indexOf(" "), s.indexOf(";")).trim();
 								annotatedVariables.add(variable);
+							}
+						}else if(type == Type.INSTANTIATEDPROPERTY){
+							parenthesisCount += countCharacters(s, "(");
+							parenthesisCount -= countCharacters(s, ")");
+							bracketCount += countCharacters(s, "{");
+							bracketCount -= countCharacters(s, "}");
+							if(parenthesisCount == 0 && bracketCount == 0)
+							{
+								processBit = true;
 							}
 						}
 				}
@@ -205,6 +220,15 @@ public class Processor {
 		for(String name : names)
 		{
 			if (name.contains(value))
+				contains = true;
+		}
+		return contains;
+	}
+	
+	private static boolean isPropertyAnnotated(String line, List<String> annotatedVariables){
+		boolean contains = false;
+		for (String property : annotatedVariables){
+			if (line.contains(property))
 				contains = true;
 		}
 		return contains;
