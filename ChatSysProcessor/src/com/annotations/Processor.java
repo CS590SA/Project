@@ -16,15 +16,24 @@ import java.util.List;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 public class Processor {
-	static String FILEROOT = "C:\\temp\\Development\\";
+	static String targetFolder = "ChattingApplication";
+	static String FILEROOT = File.listRoots()[0] + "temp" + File.separator + "Development" + File.separator;
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
 	static List<String> features;
 	public static void main(String[] args) {
 		ARGS = args;
 		features = fillCollection();
-		File file = new File("C:/Users/Timothy.Timothy-HP/Downloads/ChattingApp-master (1)/ChattingApp-master/src");
+		String target = getRelativePathToChattingApplication();
+		File file = new File(target);
 		listFilesForFolder(file);
+	}
+	
+	private static String getRelativePathToChattingApplication() {
+		String target = System.getProperty("user.dir"); //absolute path from where application has initialized
+		target = target.substring(0, target.lastIndexOf(File.separator)); //drop the last folder to go down one level
+		target = target + File.separator + targetFolder + File.separator + "src"; //go into ChattingApplication src directory
+		return target;
 	}
 	
 	//testing a commit
@@ -32,7 +41,7 @@ public class Processor {
 	    for (final File fileEntry : folder.listFiles()) {
 	    	String filename = fileEntry.getName();
 	    	String filePath = fileEntry.getPath();
-	    	String filePathExtension = filePath.substring(filePath.indexOf("ChattingApp-master"), filePath.length());
+	    	String filePathExtension = filePath.substring(filePath.indexOf(targetFolder), filePath.length());
 	    	String targetPath = FILEROOT + filePathExtension;
 	    	File targetFile = new File(targetPath);
 	    	String extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
@@ -180,7 +189,7 @@ public class Processor {
 	
 	private static List<String> fillCollection(){
 		List<String> features = new ArrayList<String>();
-		HashMap components = new HashMap<String, String>();
+		HashMap<String, String> components = new HashMap<String, String>();
 		components.put("game", "TTTGame");
 		components.put("chatbot", "Bot");
 		components.put("history", "ChatHistory");
