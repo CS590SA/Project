@@ -17,6 +17,7 @@ import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 public class Processor {
 	static String targetFolder = "ChattingApplication";
+	static String outputFolder = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "ModifiedChatApp";
 	static String FILEROOT = File.listRoots()[0] + "temp" + File.separator + "Development" + File.separator;
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
