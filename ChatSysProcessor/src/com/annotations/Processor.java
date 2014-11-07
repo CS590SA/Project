@@ -68,6 +68,7 @@ public class Processor {
 	{
 		List<String> annotatedVariables = new ArrayList<String>();
 		FileOutputStream output = null;
+		BufferedReader reader = null;
 		boolean processBit = true;
 		int bracketCount = 0;
 		int parenthesisCount = 0;
@@ -76,7 +77,7 @@ public class Processor {
 		try{
 			
 			//input = new FileInputStream("C:/development/TestResources/AnnotationImpl.java");
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			reader = new BufferedReader(new FileReader(file));
 			output = new FileOutputStream(targetFile);
 			file.createNewFile();
 			while(reader.ready()){	
@@ -129,10 +130,11 @@ public class Processor {
 			//input.close();
 			output.flush();
 			output.close();
+			reader.close();
+			
 			for(String variable : annotatedVariables){
 				System.out.println(variable);
 			}
-			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 		}
