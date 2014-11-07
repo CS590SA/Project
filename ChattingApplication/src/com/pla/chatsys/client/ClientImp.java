@@ -47,6 +47,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+import com.pla.chatsys.annotation.ChattingAnnotation;
+
 import comp.Templet.TemplateGUI;
 import comp.Templet.TemplateGUI.SelectInterfce;
 import comp.Templet.TempletSelector;
@@ -65,7 +67,9 @@ public class ClientImp extends JFrame implements ActionListener,IClientImp
 	JButton sendButton;
 	JButton loadButton;
 	JButton trackButton;
+	@ChattingAnnotation(feature="game", type="property")
 	JButton TTTButton;
+	@ChattingAnnotation(feature="image", type="property")
 	JButton ImageButton;
 	JEditorPane transcript = new JEditorPane("text/html", "");
 	JButton printButton;
