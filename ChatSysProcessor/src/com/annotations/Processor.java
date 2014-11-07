@@ -87,7 +87,7 @@ public class Processor {
 				}
 				else if (isPropertyAnnotated(s, annotatedVariables))
 				{
-					type = Type.UNANNOTATED;
+					type = Type.INSTANTIATEDPROPERTY;
 					processBit = false;
 				}
 				if(!processBit){

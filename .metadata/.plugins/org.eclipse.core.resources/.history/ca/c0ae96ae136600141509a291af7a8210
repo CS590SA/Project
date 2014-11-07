@@ -69,7 +69,6 @@ public class ClientImp extends JFrame implements ActionListener,IClientImp
 	JButton trackButton;
 	@ChattingAnnotation(feature="game", type="property")
 	JButton TTTButton;
-	@ChattingAnnotation(feature="image", type="property")
 	JButton ImageButton;
 	JEditorPane transcript = new JEditorPane("text/html", "");
 	JButton printButton;
@@ -110,7 +109,7 @@ public class ClientImp extends JFrame implements ActionListener,IClientImp
 		sendButton = new JButton("Send");
 		template = new JButton("Templates");
 		TTTButton = new JButton(new ImageIcon(IconPath+"TTT.png"));
-		TTTButton.setBackground(Color.WHITE);
+		TTTButton.(Color.WHITE);
 		//TTTButton.setPreferredSize(new Dimension(30, 30));
 		ImageButton = new JButton("Send Image");
 		printButton = new JButton(new ImageIcon(IconPath+"Print.png"));
