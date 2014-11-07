@@ -16,15 +16,24 @@ import java.util.List;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 public class Processor {
-	static String FILEROOT = "C:\\temp\\Development\\";
+	static String targetFolder = "ChattingApplication";
+	static String outputRoot = System.getProperty("user.home") + File.separator + "Documents" + File.separator;
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
 	static List<String> features;
 	public static void main(String[] args) {
 		ARGS = args;
 		features = fillCollection();
-		File file = new File("C:/Users/Timothy.Timothy-HP/Documents/GitHub/Project/ChattingApplication/src");
+		String target = getRelativePathToChattingApplication();
+		File file = new File(target);
 		listFilesForFolder(file);
+	}
+	
+	private static String getRelativePathToChattingApplication() {
+		String target = System.getProperty("user.dir"); //absolute path from where application has initialized
+		target = target.substring(0, target.lastIndexOf(File.separator)); //drop the last folder to go down one level
+		target = target + File.separator + targetFolder + File.separator + "src"; //go into ChattingApplication src directory
+		return target;
 	}
 	
 	//testing a commit
@@ -32,8 +41,8 @@ public class Processor {
 	    for (final File fileEntry : folder.listFiles()) {
 	    	String filename = fileEntry.getName();
 	    	String filePath = fileEntry.getPath();
-	    	String filePathExtension = filePath.substring(filePath.indexOf("ChattingApp-master"), filePath.length());
-	    	String targetPath = FILEROOT + filePathExtension;
+	    	String filePathExtension = filePath.substring(filePath.indexOf(targetFolder), filePath.length());
+	    	String targetPath = outputRoot + filePathExtension;
 	    	File targetFile = new File(targetPath);
 	    	String extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
 	        if (!extension.equals("java")) {
