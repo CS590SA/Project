@@ -70,6 +70,7 @@ public class Processor {
 		FileOutputStream output = null;
 		BufferedReader reader = null;
 		boolean processBit = true;
+		boolean methodAnnotation = false;
 		int bracketCount = 0;
 		int parenthesisCount = 0;
 		Type type = null;
@@ -84,6 +85,8 @@ public class Processor {
 				String s = reader.readLine();
 				if(s.contains("@ChattingAnnotation")){ 
 					type = determineType(s, type);
+					if(type == Type.METHOD)
+						methodAnnotation = true;
 					processBit = canProcess(s);
 				}
 				else if (isPropertyAnnotated(s, annotatedVariables))
@@ -95,12 +98,13 @@ public class Processor {
 						if(type == Type.METHOD || type == Type.CLASS){
 							bracketCount += countCharacters(s, "{");
 							bracketCount -= countCharacters(s, "}");
-							if(bracketCount == 0){
+							if(bracketCount == 0 && !methodAnnotation){
 								processBit = true;
 								output.write(s.getBytes());
 								output.write(13);
 								output.write(10);
-							}						
+							}		
+							methodAnnotation = true;
 						}else if(type == Type.PROPERTY){
 							if(s.contains(";"))
 							{
