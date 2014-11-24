@@ -72,8 +72,10 @@ public class ClientImp extends JFrame implements ActionListener,IClientImp
 	@ChattingAnnotation(feature="image", type="property")
 	JButton ImageButton;
 	JEditorPane transcript = new JEditorPane("text/html", "");
+	@ChattingAnnotation(feature="print", type="property")
 	JButton printButton;
 	JButton privateButton;
+	@ChattingAnnotation(feature="file", type="property")
 	JButton fileButton;
 	
 	JButton colorButton;
