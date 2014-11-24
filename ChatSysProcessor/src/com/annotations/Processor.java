@@ -32,7 +32,7 @@ public class Processor {
 	private static String getRelativePathToChattingApplication() {
 		String target = System.getProperty("user.dir"); //absolute path from where application has initialized
 		target = target.substring(0, target.lastIndexOf(File.separator)); //drop the last folder to go down one level
-		target = target + File.separator + targetFolder + File.separator + "src"; //go into ChattingApplication src directory
+		target = target + File.separator + targetFolder; //go into ChattingApplication src directory
 		return target;
 	}
 	
@@ -214,6 +214,7 @@ public class Processor {
 		components.put("game", "TTTGame");
 		components.put("chatbot", "Bot");
 		components.put("history", "ChatHistory");
+		components.put("file", "Templet");
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
 		
@@ -227,6 +228,11 @@ public class Processor {
 		features.add(".svn");
 		features.add("prop-base");
 		features.add("text-base");
+		features.add("annotation");
+		features.add("META-INF");
+		features.add(".settings");
+		features.add("icon");
+		features.add("src");
 		return features;
 	}
 	
