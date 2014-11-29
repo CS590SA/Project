@@ -51,426 +51,111 @@ import com.pla.chatsys.annotation.ChattingAnnotation;
 
 import comp.Templet.TemplateGUI;
 import comp.Templet.TemplateGUI.SelectInterfce;
-import comp.Templet.TempletSelector;
 
+public class ClientImp extends JFrame implements ActionListener, IClientImp {
 
-
-public class ClientImp extends JFrame implements ActionListener,IClientImp
-{
+	//mandatory properties
+	JFrame f = new JFrame();
+	JButton btnSend;
+	JEditorPane tvTranscript = new JEditorPane("text/html", "");
+	private static final long serialVersionUID = -4658058460358555306L;
 	private ClientArch _arch;
 	public static String IconPath = "icons/";
-	private static String filePath = "C:\\temp\\";
-	
-	JFrame f = new JFrame();
-	JTextField entryField;
-	JButton template;
-	JButton sendButton;
-	JButton loadButton;
-	JButton trackButton;
-	@ChattingAnnotation(feature="game", type="property")
-	JButton TTTButton;
-	@ChattingAnnotation(feature="image", type="property")
-	JButton ImageButton;
-	JEditorPane transcript = new JEditorPane("text/html", "");
-	@ChattingAnnotation(feature="print", type="property")
-	JButton printButton;
-	JButton privateButton;
-	@ChattingAnnotation(feature="file", type="property")
-	JButton fileButton;
-	
-	JButton colorButton;
-	JButton settingsButton;
 	public int flag = 0;
 	StringBuffer transcriptBuf;
+	
+	//annotated properties
+	@ChattingAnnotation(feature="Attachment", type="property")
+	private static String filePath = System.getProperty("user.home") + File.separator + "Temp" + File.separator;
+	@ChattingAnnotation(feature="Texting", type="property")
+	JTextField entryField;
+	@ChattingAnnotation(feature="Templates", type="property")
+	JButton btnTemplates;
+	@ChattingAnnotation(feature="History", type="property")
+	JButton btnHistory;
+	@ChattingAnnotation(feature="Map", type="property")
+	JButton btnMap;
+	@ChattingAnnotation(feature = "Game", type = "property")
+	JButton btnGame;
+	@ChattingAnnotation(feature = "Image", type = "property")
+	JButton btnImage;
+	@ChattingAnnotation(feature = "Print", type = "property")
+	JButton btnPrint;
+	@ChattingAnnotation(feature="Incognito", type="property")
+	JButton btnIncognito;
+	@ChattingAnnotation(feature = "Attachment", type = "property")
+	JButton btnAttachment;
+	@ChattingAnnotation(feature="BGColor", type="property")
+	JButton btnBGColor;
+	@ChattingAnnotation(feature="Settings", type="property")
+	JButton btnSettings;
+	@ChattingAnnotation(feature="Availability", type="property")
 	DefaultComboBoxModel model = new DefaultComboBoxModel();
+	@ChattingAnnotation(feature="Availability", type="property")
 	JComboBox comboBox = new JComboBox(model);
-	String File = "./ChatHistory.txt";
 
-    public ClientImp (){
-    }
-
-	public void setArch(ClientArch arch){
-		_arch = arch;
-	}
-	public ClientArch getArch(){
-		return _arch;
-	}
-
+	public ClientImp() {}
+	public void setArch(ClientArch arch) { _arch = arch; }
+	public ClientArch getArch() { return _arch; }
 	/*
-  	  Myx Lifecycle Methods: these methods are called automatically by the framework
-  	  as the bricks are created, attached, detached, and destroyed respectively.
-	*/	
-	public void init(){
-	    
-	}
-	public void begin(){
+	 * Myx Lifecycle Methods: these methods are called automatically by the
+	 * framework as the bricks are created, attached, detached, and destroyed
+	 * respectively.
+	 */
+	public void init() {}
+	public void begin() {
 		transcriptBuf = new StringBuffer();
-		
-		//textarea.setText("Here is some <b>bold text</b>");
-		//transcript = new JTextArea();
 		entryField = new JTextField(20);
-		sendButton = new JButton("Send");
-		template = new JButton("Templates");
-		TTTButton = new JButton(new ImageIcon(IconPath+"TTT.png"));
-		TTTButton.setBackground(Color.WHITE);
-		//TTTButton.setPreferredSize(new Dimension(30, 30));
-		ImageButton = new JButton("Send Image");
-		printButton = new JButton(new ImageIcon(IconPath+"Print.png"));
-		printButton.setBackground(Color.WHITE);
-		//printButton.setPreferredSize(new Dimension(30, 30));
-		privateButton = new JButton(new ImageIcon(IconPath+"Private.png"));
-		privateButton.setBackground(Color.WHITE);
-		//privateButton.setPreferredSize(new Dimension(30,30));
-		trackButton = new JButton(new ImageIcon(IconPath+"Track.png"));
-		trackButton.setBackground(Color.WHITE);
-		//trackButton.setPreferredSize(new Dimension(30,30));
-		colorButton = new JButton(new ImageIcon(IconPath+"Color.png"));
-		colorButton.setBackground(Color.WHITE);
-		//colorButton.setPreferredSize(new Dimension(30,30));
-		
-		fileButton = new JButton("Send File");
-		fileButton = new JButton(new ImageIcon(IconPath+"SendFile.png"));
-		fileButton.setBackground(Color.WHITE);
-		settingsButton = new JButton(new ImageIcon(IconPath+"Settings.png"));
-		settingsButton.setBackground(Color.WHITE);
+		btnSend = new JButton("Send");
+		btnTemplates = new JButton("Templates");
+		btnGame = new JButton(new ImageIcon(IconPath + "TTT.png"));
+		btnGame.setBackground(Color.WHITE);
+		btnImage = new JButton("Send Image");
+		btnPrint = new JButton(new ImageIcon(IconPath + "Print.png"));
+		btnPrint.setBackground(Color.WHITE);
+		btnIncognito = new JButton(new ImageIcon(IconPath + "Private.png"));
+		btnIncognito.setBackground(Color.WHITE);
+		btnMap = new JButton(new ImageIcon(IconPath + "Track.png"));
+		btnMap.setBackground(Color.WHITE);
+		btnBGColor = new JButton(new ImageIcon(IconPath + "Color.png"));
+		btnBGColor.setBackground(Color.WHITE);
+		btnAttachment = new JButton("Send File");
+		btnAttachment = new JButton(new ImageIcon(IconPath + "SendFile.png"));
+		btnAttachment.setBackground(Color.WHITE);
+		btnSettings = new JButton(new ImageIcon(IconPath + "Settings.png"));
+		btnSettings.setBackground(Color.WHITE);
+		btnHistory = new JButton("Chat History");
+		tvTranscript.setEditable(false);
+		btnSend.addActionListener(this);
 		final JPopupMenu menu = new JPopupMenu();
 		JMenuItem defaultLoc = new JMenuItem("Default Location");
 		menu.add(defaultLoc);
-		defaultLoc.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-
-            	
-            	JFileChooser fileChooser = new JFileChooser();
-            	fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            	int fileStatus = fileChooser.showDialog(ClientImp.this, "Select file");
-            	if(fileStatus == JFileChooser.APPROVE_OPTION ){
-            		filePath  = fileChooser.getSelectedFile().getAbsolutePath()+"\\";
-            	
-            	//_arch.OUT_IChat.sendFile(getTitle(), fileChooser.getSelectedFile());
-            	
-            	//System.out.println("path-->"+fileChooser.getSelectedFile().getAbsolutePath());
-            	///System.out.println("image tag --->"+imgtag);
-            	
-            	}
-            	
-            	
-            
-				
-			}
-		});
-		
-		
-		//colorButton.setPreferredSize(new Dimension(30,30));
-		loadButton = new JButton("Chat History");
-		transcript.setEditable(false);
-		sendButton.addActionListener(this);
-		
-		settingsButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			menu.show(settingsButton, 0,settingsButton.getBounds().height /*settingsButton.getBounds().y+settingsButton.getBounds().height*/);
-			}
-		});
-		colorButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-
-				JColorChooser colorChooser = new JColorChooser();
-				Color color = colorChooser.showDialog(ClientImp.this, "Pick Color", Color.GRAY);
-				
-				ArrayList<Object> parameters = new ArrayList<Object>();
-				parameters.add(getTitle());
-				parameters.add(color);
-				_arch.OUT_IToolBar.sendColor(getTitle(), color.hashCode());
-				//_arch.OUT_IChatSettings.setColor(getTitle(), color);
-				//_arch.optionalProvider("settings", "setColor", parameters);
-				
-				
-			}
-		});
-		
-		
-		
 		String title = "Chat Client " + _arch.getMyxBrickItems().getBrickName().toString().substring(42);
 		f.setTitle(title);
 		this.setTitle(title);
-		//this.setLocation(100, 200);
-		//String title = "Chat Client " + _arch.getMyxBrickItems().getBrickName().toString().substring(42);
-		//this.setTitle(title);
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout(new BorderLayout());
-		JScrollPane scrollingArea = new JScrollPane(transcript);
+		JScrollPane scrollingArea = new JScrollPane(tvTranscript);
 		centerPanel.add(scrollingArea, BorderLayout.CENTER);
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		bottomPanel.add(entryField);
-		bottomPanel.add(sendButton);
-		bottomPanel.add(loadButton);
-		bottomPanel.add(template);
-		
-		
-		bottomPanel.add(ImageButton);
-		
-		
-		
+		bottomPanel.add(btnSend);
+		bottomPanel.add(btnHistory);
+		bottomPanel.add(btnTemplates);
+		bottomPanel.add(btnImage);
 		model.addElement("Available");
 		model.addElement("Do not Disturb");
-
-		topPanel.add(settingsButton);
-		topPanel.add(trackButton);
-		topPanel.add(fileButton);
-		topPanel.add(colorButton);
-		topPanel.add(TTTButton);
-		topPanel.add(printButton);
-		topPanel.add(privateButton);
+		topPanel.add(btnSettings);
+		topPanel.add(btnMap);
+		topPanel.add(btnAttachment);
+		topPanel.add(btnBGColor);
+		topPanel.add(btnGame);
+		topPanel.add(btnPrint);
+		topPanel.add(btnIncognito);
 		topPanel.add(comboBox);
-		
-		
-		 
-		loadButton.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-            	
-                String ChatHistory = _arch.OUT_IHistoryRetrive.retriveChatHistory(getTitle());//reading();   //Execute when button is pressed
-                transcript.setText(ChatHistory);
-            	
-            	
-            }
-        });  
-		TTTButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			
-				_arch.OUT_IGame.startGame();
-				
-			}
-		});
-		template.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			
-				
-				//_arch.OUT_ISendTemplet.sendTemplet(getTitle(), entryField.getText());
-				
-				TemplateGUI temp = new TemplateGUI();
-				temp.setSelectInterface(new SelectInterfce() {
-					
-					@Override
-					public void onItemSelect(String msg1) {
-					
-					
-					if(!msg1.equals("")){
-						_arch.OUT_ISendTemplet.sendTemplet(getTitle(), msg1);
-					
-					}
-					}
-				});
-				
-			}
-		});
-		ImageButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-			
-			
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
-
-			        @Override
-			        public boolean accept(File f) {
-			        	String filename = f.getName();
-			            if(filename.endsWith(".jpg") || filename.endsWith(".jpeg") 
-			               || filename.endsWith(".png") || filename.endsWith(".bmp")
-			               || filename.endsWith(".gif") || filename.endsWith(".jpe")){
-			            	
-			            	return true;
-			            }
-			            return false;
-			        }
-
-			        @Override
-			        public String getDescription() {
-			            return "JPEG files";
-			        }
-
-			    });
-            	int fileStatus = fileChooser.showDialog(ClientImp.this, "Select file");
-            	if(fileStatus == JFileChooser.APPROVE_OPTION ){
-            		File f = fileChooser.getSelectedFile();
-            		_arch.OUT_ISendImage.sendImage(getTitle(), f.getName(),getBytes(f));
-            		
-				
-//				ArrayList<Object> params = new ArrayList<Object>();
-//            	params.add(getTitle());
-//            	params.add("<img src =\"file:"+fileChooser.getSelectedFile().getAbsolutePath()+"\"/>");
-//            	params.add(flag);
-//            	_arch.optionalProvider("chat", "sendMessage", params);
-            	}
-			}
-		});
-		
-		fileButton.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-            	
-            	JFileChooser fileChooser = new JFileChooser();
-            	
-            	int fileStatus = fileChooser.showDialog(ClientImp.this, "Select file");
-            	if(fileStatus == JFileChooser.APPROVE_OPTION ){
-            		
-            		File file = fileChooser.getSelectedFile();
-            		byte[] fileData = getBytes(file);
-            	_arch.OUT_ISendFileListener.sendFile(getTitle(), file.getName(), fileData);
-            	
-            	}
-            	
-            	
-            }
-
-			
-        });  
-		printButton.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-            	       
-            	_arch.OUT_IPrintEvent.print(transcript.getText());
-            	
-            		
-            	
-            	/*try {
-					boolean complete = transcript.print();
-					if (complete)
-					{
-						JOptionPane.showMessageDialog(null,"Done Printing!","Information",JOptionPane.INFORMATION_MESSAGE);
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(null,"Printing Aborted !!","Printer",JOptionPane.ERROR_MESSAGE);
-					}
-				} catch (PrinterException e1) {
-					
-					JOptionPane.showMessageDialog(null, e1);
-				}*/
-            }
-        });  
-		
-		privateButton.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-            	  if (flag == 0){
-            		  flag = 1;
-            		
-            		  privateButton.setBackground(new Color(150,150,150));
-            		  
-            	  	}
-            	  else if (flag == 1)
-            	  {
-            		  flag = 0;
-            		  privateButton.setBackground(Color.WHITE);
-            	  }
-			}
-		});
-		
-		trackButton.addActionListener(new ActionListener() {
-			 
-            public void actionPerformed(ActionEvent e)
-            {
-            	URL connection;
-				try {
-					connection = new URL("http://checkip.amazonaws.com/");
-					URLConnection con = connection.openConnection();
-	                String str = null;
-	                String xml = null;
-	                String XMLcode;
-	                BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
-	                str = reader.readLine();
-	                //System.out.println(str);
-	                reader.close();
-	                String tracking = " http://api.ipaddresslabs.com/iplocation/v1.7/locateip?key=demo&ip="+str+"&format=XML";
-	               // System.out.println(tracking);
-	                BufferedReader reader1 = new BufferedReader(new InputStreamReader(new URL(tracking).openStream()));
-	                XMLcode = reader1.readLine();
-	                while((XMLcode = reader1.readLine()) != null)
-					{	
-	                	if (xml==null){ xml = XMLcode;}
-	                	else{
-						xml = xml + XMLcode;}
-					}
-	              System.out.println(xml);
-	            	    try {
-	            	        DocumentBuilderFactory dbf =
-	            	            DocumentBuilderFactory.newInstance();
-	            	        DocumentBuilder db = dbf.newDocumentBuilder();
-	            	        InputSource is = new InputSource();
-	            	        is.setCharacterStream(new StringReader(xml));
-
-	            	        Document doc = db.parse(is);
-	            	        NodeList nodes = doc.getElementsByTagName("geolocation_data");
-
-	            	        // iterate the employees
-	            	        for (int i = 0; i < nodes.getLength(); i++) {
-	            	           Element element = (Element) nodes.item(i);
-
-	            	           NodeList name = element.getElementsByTagName("latitude");
-	            	           Element line = (Element) name.item(0);
-	            	           String lat = getCharacterDataFromElement(line);
-	            	          // System.out.println(lat);
-	            	           NodeList title = element.getElementsByTagName("longitude");
-	            	           line = (Element) title.item(0);
-	            	           String lng = getCharacterDataFromElement(line);
-	            	           
-	            	           _arch.OUT_IToolBar.sendLocation(Double.parseDouble(lat), Double.parseDouble(lng));
-	            	          // System.out.println(lng);
-	            	          // String browserPath = "C:/Program Files/Internet Explorer/IEXPLORE.EXE"; //Use your browser path
-	            	           String browserPath = "C:/Users/arun/AppData/Local/Google/Chrome/Application/chrome.exe";
-	            	           String url = "https://maps.google.com/maps?q="+lat+","+lng;
-	            	           //transcript.setPage(url);
-	            	           try {
-//	            	                String[] b = {browserPath, url};
-//	            	                Runtime.getRuntime().exec(b);
-	            	            }
-	            	            catch (Exception exc) {
-	            	         exc.printStackTrace();
-	            	            }
-	 
-	            	        }
-	            	    }
-	            	    catch (Exception e1) {
-	            	        e1.printStackTrace();
-	            	    }
-	            	    
-				   
-				} catch (IOException e1) {
-					
-					e1.printStackTrace();
-				} 
-				
-              /* if (flag == 0){
-            		flag = 1;
-            	}
-            	else if (flag == 1)
-            	{
-            		flag = 0;
-            	}*/
-				
-            }
-        }); 
-		
-		
 		f.getContentPane().add("Center", centerPanel);
 		f.getContentPane().add("South", bottomPanel);
 		f.getContentPane().add("North", topPanel);
@@ -480,283 +165,365 @@ public class ClientImp extends JFrame implements ActionListener,IClientImp
 		f.setVisible(true);
 		validate();
 		repaint();
+		defaultLoc.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				int fileStatus = fileChooser.showDialog(ClientImp.this, "Select file");
+				if (fileStatus == JFileChooser.APPROVE_OPTION) {
+					filePath = fileChooser.getSelectedFile().getAbsolutePath() + File.separator;
+				}
+			}
+		});
+		btnSettings.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				menu.show(btnSettings, 0, btnSettings.getBounds().height);
+			}
+		});
+		btnBGColor.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				Color color = JColorChooser.showDialog(ClientImp.this, "Pick Color", Color.GRAY);
+				ArrayList<Object> parameters = new ArrayList<Object>();
+				parameters.add(getTitle());
+				parameters.add(color);
+				_arch.OUT_IToolBar.sendColor(getTitle(), color.hashCode());
+			}
+		});
+		btnHistory.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String ChatHistory = _arch.OUT_IHistoryRetrive.retriveChatHistory(getTitle());
+				tvTranscript.setText(ChatHistory);
+			}
+		});
+		btnGame.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_arch.OUT_IGame.startGame();
+			}
+		});
+		btnTemplates.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TemplateGUI temp = new TemplateGUI();
+				temp.setSelectInterface(new SelectInterfce() {
+					@Override
+					public void onItemSelect(String msg1) {
+						if (!msg1.equals("")) {
+							_arch.OUT_ISendTemplet.sendTemplet(getTitle(), msg1);
+						}
+					}
+				});
+			}
+		});
+		btnImage.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
+							@Override
+							public boolean accept(File f) {
+								String filename = f.getName();
+								if (filename.endsWith(".jpg")
+										|| filename.endsWith(".jpeg")
+										|| filename.endsWith(".png")
+										|| filename.endsWith(".bmp")
+										|| filename.endsWith(".gif")
+										|| filename.endsWith(".jpe")) {
+									return true;
+								}
+								return false;
+							}
+							@Override
+							public String getDescription() {
+								return "JPEG files";
+							}
+						});
+				int fileStatus = fileChooser.showDialog(ClientImp.this,
+						"Select file");
+				if (fileStatus == JFileChooser.APPROVE_OPTION) {
+					File f = fileChooser.getSelectedFile();
+					_arch.OUT_ISendImage.sendImage(getTitle(), f.getName(), getBytes(f));
+				}
+			}
+		});
+		btnAttachment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int fileStatus = fileChooser.showDialog(ClientImp.this, "Select file");
+				if (fileStatus == JFileChooser.APPROVE_OPTION) {
+					File file = fileChooser.getSelectedFile();
+					byte[] fileData = getBytes(file);
+					_arch.OUT_ISendFileListener.sendFile(getTitle(), file.getName(), fileData);
+				}
+			}
+		});
+		btnPrint.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				_arch.OUT_IPrintEvent.print(tvTranscript.getText());
+			}
+		});
+		btnIncognito.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (flag == 0) {
+					flag = 1;
+					btnIncognito.setBackground(new Color(150, 150, 150));
+				} else if (flag == 1) {
+					flag = 0;
+					btnIncognito.setBackground(Color.WHITE);
+				}
+			}
+		});
+		btnMap.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				URL connection;
+				try {
+					connection = new URL("http://checkip.amazonaws.com/");
+					URLConnection con = connection.openConnection();
+					String str = null;
+					String xml = null;
+					String XMLcode;
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(con.getInputStream()));
+					str = reader.readLine();
+					reader.close();
+					String tracking = " http://api.ipaddresslabs.com/iplocation/v1.7/locateip?key=demo&ip=" + str + "&format=XML";
+					BufferedReader reader1 = new BufferedReader(new InputStreamReader(new URL(tracking).openStream()));
+					XMLcode = reader1.readLine();
+					while ((XMLcode = reader1.readLine()) != null) {
+						if (xml == null) {
+							xml = XMLcode;
+						} else {
+							xml = xml + XMLcode;
+						}
+					}
+					System.out.println(xml);
+					try {
+						DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+						DocumentBuilder db = dbf.newDocumentBuilder();
+						InputSource is = new InputSource();
+						is.setCharacterStream(new StringReader(xml));
+						Document doc = db.parse(is);
+						NodeList nodes = doc.getElementsByTagName("geolocation_data");
+						for (int i = 0; i < nodes.getLength(); i++) {
+							Element element = (Element) nodes.item(i);
+							NodeList name = element.getElementsByTagName("latitude");
+							Element line = (Element) name.item(0);
+							String lat = getCharacterDataFromElement(line);
+							NodeList title = element.getElementsByTagName("longitude");
+							line = (Element) title.item(0);
+							String lng = getCharacterDataFromElement(line);
+							_arch.OUT_IToolBar.sendLocation(Double.parseDouble(lat), Double.parseDouble(lng));
+							String browserPath = "C:/Users/arun/AppData/Local/Google/Chrome/Application/chrome.exe";
+							String url = "https://maps.google.com/maps?q=" + lat + "," + lng;
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 	}
-	
 	public static String getCharacterDataFromElement(Element e) {
-	    Node child = e.getFirstChild();
-	    if (child instanceof CharacterData) {
-	       CharacterData cd = (CharacterData) child;
-	       return cd.getData();
-	    }
-	    return "?";
-	  }
-	public void end(){
-		
+		Node child = e.getFirstChild();
+		if (child instanceof CharacterData) {
+			CharacterData cd = (CharacterData) child;
+			return cd.getData();
+		}
+		return "?";
 	}
-	public void destroy(){
-		
-	}
-
+	public void end() {}
+	public void destroy() {}
 	/*
-  	  Implementation primitives required by the architecture
-	*/
-  
-    
-    public void messageSent (String sender,String message)   {
-
-    	
-    	String status = (String) comboBox.getSelectedItem();
-    	if (status == "Available")
-    	{
-    		addMessageToTranscript(sender+ ": " +"<h2>"+message+"</h2>");
-    	//	flag1 = 0;
-    		
-    	}
-    	else
-    	{
-    		//flag1 = 1;
-    		JOptionPane.showMessageDialog(this,"User Status: DO NOT DISTURB!", "Message Sending Failed!!", JOptionPane.ERROR_MESSAGE);
-    	}
-    
-		
-    }
-
-    public void addMessageToTranscript(String text){
+	 * Implementation primitives required by the architecture
+	 */
+	public void messageSent(String sender, String message) {
+		String status = (String) comboBox.getSelectedItem();
+		if (status == "Available") {
+			addMessageToTranscript(sender + ": " + "<h2>" + message + "</h2>");
+		} else {
+			JOptionPane.showMessageDialog(this, "User Status: DO NOT DISTURB!", "Message Sending Failed!!", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	public void addMessageToTranscript(String text) {
 		transcriptBuf.append(text);
 		transcriptBuf.append(System.getProperty("line.separator"));
-		transcript.setText(transcriptBuf.toString());
+		tvTranscript.setText(transcriptBuf.toString());
 	}
-
-	public String reading()
-    {
-    	String sCurrentLine = null;
-    	String Allfile = null;
-    	BufferedReader br = null;
+	public String reading() {
+		String sCurrentLine = null;
+		String Allfile = null;
+		BufferedReader br = null;
 		try {
-			 
 			br = new BufferedReader(new FileReader("./ChatHistory.txt"));
-					while((sCurrentLine = br.readLine()) != null)
-					{
-						if (Allfile == null)
-						{
-							
-							//byte[] byt =Encryptor.decrypt(sCurrentLine.getBytes());
-							//sCurrentLine = new String(Encryptor.decrypt(sCurrentLine.getBytes()));
-							Allfile = sCurrentLine;
-						}
-						else
-						{
-						//	sCurrentLine = new String(Encryptor.decrypt(sCurrentLine.getBytes()));
-						Allfile = Allfile +"\n" +sCurrentLine;
-						}
-						
-					}
+			while ((sCurrentLine = br.readLine()) != null) {
+				if (Allfile == null) {
+					Allfile = sCurrentLine;
+				} else {
+					Allfile = Allfile + "\n" + sCurrentLine;
+				}
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (br != null)br.close();
+				if (br != null)
+					br.close();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
 		}
 		return Allfile;
-    }
-    
+	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		
 		String cmd = arg0.getActionCommand();
-		if(cmd.equalsIgnoreCase("Send")){
+		if (cmd.equalsIgnoreCase("Send")) {
 			System.out.println("HI");
-		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		String date = " Sent on-" + dateFormat.format(cal.getTime());
-		String text = entryField.getText();
-		String Msg = getTitle() + ": " + text + date;	
-		if(!text.equals("")){
-			if(flag == 1){
-				_arch.OUT_IToolBar.sendIncognitoMessage(getTitle(), text);
-			}else{
-				_arch.OUT_IChat.sendMessage(getTitle(), text);	
+			DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			Calendar cal = Calendar.getInstance();
+			String date = " Sent on-" + dateFormat.format(cal.getTime());
+			String text = entryField.getText();
+			String Msg = getTitle() + ": " + text + date;
+			if (!text.equals("")) {
+				if (flag == 1) {
+					_arch.OUT_IToolBar.sendIncognitoMessage(getTitle(), text);
+				} else {
+					_arch.OUT_IChat.sendMessage(getTitle(), text);
+				}
 			}
-			
-		
-		}
-		
-	}else if(cmd.equals("Color")){
-		JColorChooser colorChooser = new JColorChooser();
-		Color color = colorChooser.showDialog(ClientImp.this, "Pick Color", Color.GRAY);
-		_arch.OUT_IToolBar.sendColor(getTitle(), color.hashCode());
+		} else if (cmd.equals("Color")) {
+			JColorChooser colorChooser = new JColorChooser();
+			Color color = colorChooser.showDialog(ClientImp.this, "Pick Color", Color.GRAY);
+			_arch.OUT_IToolBar.sendColor(getTitle(), color.hashCode());
 		}
 	}
-
 	@Override
 	public void fileSent(String sender, String fileName, byte[] fileData) {
-		if(!sender.equals(this.getTitle())){
-			
-			transcript.setText("Recived a file "+fileName+"\n");
-		
-				try{
-			saveFile(filePath+fileName,fileData);
-				}catch(Exception e){
-					e.printStackTrace();
-				}
-				
-			//File file1 = new File(file, filePath);
-		//	}
+		if (!sender.equals(this.getTitle())) {
+			tvTranscript.setText("Recived a file " + fileName + "\n");
+			try {
+				saveFile(filePath + fileName, fileData);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
 	}
-
 	private byte[] getBytes(java.io.File file) {
 		byte[] b = new byte[(int) file.length()];
 		FileInputStream fileInputStream = null;
-     try {
-    	 
-    	 fileInputStream = new FileInputStream(file);
-           fileInputStream.read(b);
-           for (int i = 0; i < b.length; i++) {
-                       System.out.print((char)b[i]);
-            }
-           fileInputStream.close();
-      } catch (FileNotFoundException e) {
-                  System.out.println("File Not Found.");
-                  e.printStackTrace();
-      }
-      catch (IOException e1) {
-               System.out.println("Error Reading The File.");
-                e1.printStackTrace();
-      }
-     
-     return b;
-     }
-	private void saveFile(String strFilePath, byte[] fileData) {
-		
-        try {
-             FileOutputStream fos = new FileOutputStream(strFilePath);
-             
-             fos.write(fileData);
-             fos.close();
-       }
-      catch(FileNotFoundException ex)   {
-             System.out.println("FileNotFoundException : " + ex);
-      }
-     catch(IOException ioe)  {
-             System.out.println("IOException : " + ioe);
-      }
-		
+		try {
+			fileInputStream = new FileInputStream(file);
+			fileInputStream.read(b);
+			for (int i = 0; i < b.length; i++) {
+				System.out.print((char) b[i]);
+			}
+			fileInputStream.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("File Not Found.");
+			e.printStackTrace();
+		} catch (IOException e1) {
+			System.out.println("Error Reading The File.");
+			e1.printStackTrace();
+		}
+		return b;
 	}
-
+	private void saveFile(String strFilePath, byte[] fileData) {
+		try {
+			FileOutputStream fos = new FileOutputStream(strFilePath);
+			fos.write(fileData);
+			fos.close();
+		} catch (FileNotFoundException ex) {
+			System.out.println("FileNotFoundException : " + ex);
+		} catch (IOException ioe) {
+			System.out.println("IOException : " + ioe);
+		}
+	}
 	@Override
 	public void imageSent(String sender, String imageName, byte[] imageData) {
-//		if(!sender.equals(getTitle())){
-			try{
-				saveFile(filePath+imageName,imageData);
-					}catch(Exception e){
-						e.printStackTrace();
-					}
-	
-//		}
-		
-		String imgtag = "<img src =\"file:"+filePath+imageName+"\"/>";
-    	messageSent(sender, imgtag);
+		try {
+			saveFile(filePath + imageName, imageData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String imgtag = "<img src =\"file:" + filePath + imageName + "\"/>";
+		messageSent(sender, imgtag);
 	}
-
 	@Override
 	public void gameStarted() {
-		_arch.OUT_ITTT.startTTT(f.getLocationOnScreen().x,f.getLocationOnScreen().y-100);
+		_arch.OUT_ITTT.startTTT(f.getLocationOnScreen().x, f.getLocationOnScreen().y - 100);
 	}
-
 	@Override
 	public void gameEnded() {
 		_arch.OUT_ITTT.endTTT();
 	}
-
 	@Override
 	public void played(String sender, int position) {
-		if (!sender.equals(getTitle())){
-			_arch.OUT_ITTT.opponentMove(position);			
+		if (!sender.equals(getTitle())) {
+			_arch.OUT_ITTT.opponentMove(position);
 		}
 	}
-
 	@Override
 	public void myMove(int position) {
 		_arch.OUT_IGame.play(getTitle(), position);
 	}
-
 	@Override
 	public void quit() {
 		_arch.OUT_IGame.endGame();
 	}
-
-	
-	
-	public void buzz()
-	{
-		final int lX = f.getLocationOnScreen().x; 
-        final int lY = f.getLocationOnScreen().y; 
-        System.out.println(lX+"+"+lY);
-        try {  
-        	for(int i = 0; i < 20; i++) { 
-            Thread.sleep(10); 
-            f.setLocation(lX, lY + 5); 
-            Thread.sleep(10); 
-            f.setLocation(lX, lY - 5);
-            Thread.sleep(10); 
-            f.setLocation(lX + 5, lY);
-            Thread.sleep(10); 
-            f.setLocation(lX, lY); 
-          } 
-            
-            } 
-          catch (Exception err) { 
-            err.printStackTrace(); 
-          } 
+	public void buzz() {
+		final int lX = f.getLocationOnScreen().x;
+		final int lY = f.getLocationOnScreen().y;
+		System.out.println(lX + "+" + lY);
+		try {
+			for (int i = 0; i < 20; i++) {
+				Thread.sleep(10);
+				f.setLocation(lX, lY + 5);
+				Thread.sleep(10);
+				f.setLocation(lX, lY - 5);
+				Thread.sleep(10);
+				f.setLocation(lX + 5, lY);
+				Thread.sleep(10);
+				f.setLocation(lX, lY);
+			}
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
 	}
-
 	@Override
 	public void onColorReceived(int color) {
-		transcript.setBackground(new Color(color));
-		
+		tvTranscript.setBackground(new Color(color));
 	}
-
 	@Override
 	public void onLocationReceived(double lat, double lon) {
-		String url = "https://maps.google.com/maps?q="+lat+","+lon;
-		String tag = "<a href = \""+url+"\" target=\"_blank\"> click </a> ";
-		messageSent(getTitle(), "lat:"+lat + " \n lon: "+lon);
+		String url = "https://maps.google.com/maps?q=" + lat + "," + lon;
+		String tag = "<a href = \"" + url + "\" target=\"_blank\"> click </a> ";
+		messageSent(getTitle(), "lat:" + lat + " \n lon: " + lon);
 	}
-
 	@Override
 	public void sendTemplet(String sender, String code) {
-
 		String[] result = _arch.OUT_ITempletRetriver.getTemplet(code);
-		if(result!=null){
-			
-			if(result[0].equals("text")){
-				
+		if (result != null) {
+			if (result[0].equals("text")) {
 				messageSent(sender, result[1]);
-			}else if(result[0].equals("image")){
-				String imgtag = "<img src =\"file:"+IconPath+result[1]+"\"/>";
-		    	messageSent(sender, imgtag);
-				
-			}else if(result[0].equals("multimedia")){
-				if(result[1].equals("buzz")){
-					buzz();	
+			} else if (result[0].equals("image")) {
+				String imgtag = "<img src =\"file:" + IconPath + result[1] + "\"/>";
+				messageSent(sender, imgtag);
+			} else if (result[0].equals("multimedia")) {
+				if (result[1].equals("buzz")) {
+					buzz();
 				}
-				
-				
 			}
 		}
-
-		
-		
 	}
 }
-
 class WindowEventHandler extends WindowAdapter {
-	  public void windowClosing(WindowEvent evt) {
-	    System.exit(0);
-	  }
+	public void windowClosing(WindowEvent evt) {
+		System.exit(0);
+	}
 }

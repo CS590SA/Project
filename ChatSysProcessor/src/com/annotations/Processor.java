@@ -16,11 +16,13 @@ import java.util.List;
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
 public class Processor {
+	
 	static String targetFolder = "ChattingApplication";
 	static String outputRoot = System.getProperty("user.home") + File.separator + "Documents" + File.separator;
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
 	static List<String> features;
+	
 	public static void main(String[] args) {
 		ARGS = args;
 		features = fillCollection();
@@ -35,8 +37,7 @@ public class Processor {
 		target = target + File.separator + targetFolder; //go into ChattingApplication src directory
 		return target;
 	}
-	
-	//testing a commit
+
 	public static void listFilesForFolder(final File folder) {
 	    for (final File fileEntry : folder.listFiles()) {
 	    	String filename = fileEntry.getName();
@@ -48,7 +49,7 @@ public class Processor {
 	        if (!extension.equals("java")) {
 	        	if (fileEntry.isDirectory()){
 	        		System.out.println(fileEntry.getName());
-	        		if (doesListContain(fileEntry.getName(), features)){
+	        		if (doesListContain(fileEntry.getName(), features)){ //i anticipate a problem here
 		        		targetFile.mkdirs();
 		        		listFilesForFolder(fileEntry);
 	        		}
@@ -57,9 +58,7 @@ public class Processor {
 	        		writeFile(fileEntry, targetFile);
 	        	}
 	        } else {
-	        	//checkAnnotations
 	        	annotationProcessor(fileEntry, targetFile);
-	            //System.out.println(fileEntry.getName());
 	        }
 	    }
 	}
@@ -76,8 +75,6 @@ public class Processor {
 		Type type = null;
 		
 		try{
-			
-			//input = new FileInputStream("C:/development/TestResources/AnnotationImpl.java");
 			reader = new BufferedReader(new FileReader(file));
 			output = new FileOutputStream(targetFile);
 			file.createNewFile();
@@ -109,6 +106,7 @@ public class Processor {
 							if(s.contains(";"))
 							{
 								processBit = true;
+								//string cat = "calico"; then variable = "cat = "calico"; problem?
 								String variable = s.substring(s.indexOf(" "), s.indexOf(";")).trim();
 								annotatedVariables.add(variable);
 							}
@@ -131,7 +129,6 @@ public class Processor {
 					System.out.println(s);
 				}
 			}
-			//input.close();
 			output.flush();
 			output.close();
 			reader.close();
@@ -163,11 +160,7 @@ public class Processor {
 			e.printStackTrace();
 		}
 	}
-	
-	private static String findVariable(String line){
-		return line.substring(line.indexOf(" "), line.length());
-	}
-	
+
 	private static int countCharacters(String line, String character){
 		int characterCount = 0;
 		for (int i = 0; i < line.length(); i++)
@@ -204,21 +197,25 @@ public class Processor {
 			foundAnnotationBit = false;
 		}else
 			processBit = false;
-		
 		return processBit;
 	}
 	
+	/*
+	 * in this method, features = files
+	 * The components added to hashmap are for mapping .java class files directly to ARGS
+	 * items listed in the 'features' variable are used in writing files to the output directory
+	 */
 	private static List<String> fillCollection(){
 		List<String> features = new ArrayList<String>();
-		HashMap components = new HashMap<String, String>();
-		components.put("game", "TTTGame");
-		components.put("chatbot", "Bot");
-		components.put("history", "ChatHistory");
-		components.put("file", "Templet");
+		HashMap<String,String> components = new HashMap<String, String>();
+		components.put("Game", "TTTGame");
+		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
+		components.put("History", "ChatHistory");
+		components.put("Attachment", "Templet");//problem here - other classes use Templet
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
 		
-		if (ARGS.length > 0)
+		if (ARGS.length > 0)//why?
 			features.add("comp");
 		features.add("com");
 		features.add("pla");
