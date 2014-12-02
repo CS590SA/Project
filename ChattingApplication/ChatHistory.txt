@@ -27,3 +27,14 @@ Chat Client 0c: help Sent on-09/10/2014 19:26:48<br>
 Bot: Yes! How can I help you? Sent on-09/10/2014 19:26:52<br>
 Chat Client 0c: test Sent on-10/13/2014 18:06:35<br>
 Chat Client e7: hj Sent on-10/13/2014 18:07:05<br>
+Chat Client 0c: asdf Sent on-11/27/2014 14:44:47<br>
+Chat Client e7: fdsa Sent on-11/27/2014 14:44:53<br>
+Chat Client 0c: asdf Sent on-11/27/2014 14:45:37<br>
+Chat Client 0c: asdf Sent on-11/27/2014 14:48:52<br>
+Chat Client e7: fdsa Sent on-11/27/2014 14:49:26<br>
+Chat Client 0c: asdf Sent on-11/27/2014 14:49:29<br>
+Chat Client 0c: asdf Sent on-11/27/2014 16:01:35<br>
+Chat Client e7: fdsa Sent on-11/27/2014 16:01:38<br>
+Chat Client e7: asdf Sent on-11/29/2014 12:24:59<br>
+Chat Client 0c: qwer Sent on-11/29/2014 12:25:03<br>
+Chat Client 0c: qwerrrr Sent on-11/29/2014 12:25:09<br>

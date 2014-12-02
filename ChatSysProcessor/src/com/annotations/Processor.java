@@ -18,15 +18,25 @@ import javax.xml.crypto.dsig.keyinfo.KeyValue;
 public class Processor {
 	
 	static String targetFolder = "ChattingApplication";
-	static String outputRoot = System.getProperty("user.home") + File.separator + "Documents" + File.separator;
+	static String outputRoot = null;
 	static String[] ARGS= null;
 	static HashMap<String, String> components;
 	static List<String> features;
 	
-	public static void main(String[] args) {
+	public Processor(String[] args) {
+		outputRoot = System.getProperty("user.home") + File.separator + "Documents" + File.separator;
 		ARGS = args;
 		features = fillCollection();
 		String target = getRelativePathToChattingApplication();
+		File file = new File(target);
+		listFilesForFolder(file);
+	}
+	
+	public Processor(String[] args, String pathToSource, String pathToOutput) {
+		outputRoot = pathToOutput;
+		ARGS = args;
+		features = fillCollection();
+		String target = pathToSource;
 		File file = new File(target);
 		listFilesForFolder(file);
 	}
