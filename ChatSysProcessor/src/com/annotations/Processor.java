@@ -243,7 +243,7 @@ public class Processor {
 		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
 		components.put("History", "ChatHistory");
 		components.put("None", "None");
-		//components.put("Attachment", "Templet");//problem here - other classes use Templet
+		//components.put("Attachment", "Templet ");//problem here - other classes use Templet
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
 		
