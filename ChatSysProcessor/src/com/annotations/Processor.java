@@ -80,6 +80,7 @@ public class Processor {
 		BufferedReader reader = null;
 		boolean processBit = true;
 		boolean methodAnnotation = false;
+		boolean annotated =  false; //used to ensure next row after an annotation is recognized as an annotated feature
 		int bracketCount = 0;
 		int parenthesisCount = 0;
 		Type type = null;
@@ -90,22 +91,35 @@ public class Processor {
 			file.createNewFile();
 			while(reader.ready()){	
 				String s = reader.readLine();
-				if(s.contains("@ChattingAnnotation")){ 
+
+				if (s.contains("feature=\"Texting\", type=\"method\"")){
+					System.out.println();
+				}
+				if(annotated && !s.contains("@")){
+					annotated = false;
+				}
+				else if(s.contains("@ChattingAnnotation")){ 
 					type = determineType(s, type);
 					if(type == Type.METHOD)
 						methodAnnotation = true;
+					else
+						methodAnnotation = false;
 					processBit = canProcess(s);
+					annotated = true;
 				}
-				else if (isPropertyAnnotated(s, annotatedVariables))
+				else if (isPropertyAnnotated(s, annotatedVariables) && !annotated)
 				{
 					type = Type.INSTANTIATEDPROPERTY;
 					processBit = false;
 				}
 				if(!processBit){
 						if(type == Type.METHOD || type == Type.CLASS){
+							
 							bracketCount += countCharacters(s, "{");
 							bracketCount -= countCharacters(s, "}");
-							if(bracketCount == 0 && !methodAnnotation){
+							
+							//Determine if at the end of method or if at the end of class bracketCount < 0
+							if((bracketCount == 0 && !methodAnnotation) || bracketCount < 0){
 								processBit = true;
 								output.write(s.getBytes());
 								output.write(13);
@@ -115,10 +129,17 @@ public class Processor {
 						}else if(type == Type.PROPERTY){
 							if(s.contains(";"))
 							{
+								StringBuilder variable = new StringBuilder();
 								processBit = true;
 								//string cat = "calico"; then variable = "cat = "calico"; problem?
-								String variable = s.substring(s.indexOf(" "), s.indexOf(";")).trim();
-								annotatedVariables.add(variable);
+								if (s.contains("=")){
+									s = s.substring(0, s.indexOf("=")).trim();
+									variable.append(s.substring(s.lastIndexOf(" "), s.length()).trim());
+								}
+								else{
+									variable.append(s.substring(s.indexOf(" "), s.indexOf(";")).trim());
+								}
+								annotatedVariables.add(variable.toString());
 							}
 						}else if(type == Type.INSTANTIATEDPROPERTY){
 							parenthesisCount += countCharacters(s, "(");
@@ -221,12 +242,14 @@ public class Processor {
 		components.put("Game", "TTTGame");
 		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
 		components.put("History", "ChatHistory");
-		components.put("Attachment", "Templet");//problem here - other classes use Templet
+		components.put("None", "None");
+		//components.put("Attachment", "Templet");//problem here - other classes use Templet
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
 		
 		if (ARGS.length > 0)//why?
 			features.add("comp");
+		features.add("Templet");
 		features.add("com");
 		features.add("pla");
 		features.add("chatsys");
