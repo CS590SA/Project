@@ -97,6 +97,12 @@ public class Processor {
 				}
 				if(annotated && !s.contains("@")){
 					annotated = false;
+					if (type == Type.METHOD){
+						String variable = "";
+						variable = s.substring(0, s.length()-(s.length() - s.indexOf("(")));
+						variable = variable.substring(variable.lastIndexOf(" "), variable.length()).trim();
+						annotatedVariables.add(variable);
+					}
 				}
 				else if(s.contains("@ChattingAnnotation")){ 
 					type = determineType(s, type);
@@ -243,6 +249,7 @@ public class Processor {
 		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
 		components.put("History", "ChatHistory");
 		components.put("None", "None");
+		components.put("Image", "Image");
 		//components.put("Attachment", "Templet ");//problem here - other classes use Templet
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
