@@ -1,6 +1,7 @@
 package com.pla.chatsys.client;
 
 
+import com.pla.chatsys.annotation.ChattingAnnotation;
 import com.pla.chatsys.client.ClientArch;
 
 public interface IClientImp 
@@ -24,14 +25,12 @@ public interface IClientImp
 	/*
   	  Implementation primitives required by the architecture
 	*/
-  
-    
+	@ChattingAnnotation(feature="Availability", type="property")
     public void messageSent (String sender,String message)  ;        
   
     
     public void fileSent (String sender,String fileName,byte[] fileData)  ;        
   
-    
     public void imageSent (String sender,String imageName,byte[] imageData)  ;        
   
     

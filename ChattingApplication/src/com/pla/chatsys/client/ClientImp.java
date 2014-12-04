@@ -63,12 +63,12 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 	public static String IconPath = "icons/";
 	public int flag = 0;
 	StringBuffer transcriptBuf;
+	JTextField entryField;
 	
 	//annotated properties
-	@ChattingAnnotation(feature="Attachment", type="property")
+	
 	private static String filePath = System.getProperty("user.home") + File.separator + "Temp" + File.separator;
-	@ChattingAnnotation(feature="Texting", type="property")
-	JTextField entryField;
+	
 	@ChattingAnnotation(feature="Templates", type="property")
 	JButton btnTemplates;
 	@ChattingAnnotation(feature="History", type="property")
@@ -444,6 +444,7 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 			System.out.println("IOException : " + ioe);
 		}
 	}
+	@ChattingAnnotation(feature="Image", type="method")
 	@Override
 	public void imageSent(String sender, String imageName, byte[] imageData) {
 		try {
@@ -499,6 +500,7 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 	public void onColorReceived(int color) {
 		tvTranscript.setBackground(new Color(color));
 	}
+	
 	@Override
 	public void onLocationReceived(double lat, double lon) {
 		String url = "https://maps.google.com/maps?q=" + lat + "," + lon;
