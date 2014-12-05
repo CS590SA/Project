@@ -1,12 +1,8 @@
 package com.pla.chatsys.client;
 
-import java.awt.print.PrinterException;
+import com.pla.chatsys.annotation.ChattingAnnotation;
 
-import javax.swing.JEditorPane;
-import javax.swing.JOptionPane;
-
+@ChattingAnnotation(feature="Print", type="class")
 public class Printer {
-
-	
 	
 }

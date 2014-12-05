@@ -2,11 +2,13 @@ package com.pla.chatsys.server;
 
 
 import com.pla.chatsys.IFileWriter;
+import com.pla.chatsys.annotation.ChattingAnnotation;
 
 import edu.uci.isr.myx.fw.AbstractMyxSimpleBrick;
 import edu.uci.isr.myx.fw.IMyxName;
 import edu.uci.isr.myx.fw.MyxUtils;
 
+@ChattingAnnotation(feature="History", type="class")
 public class ChatHistoryArch extends AbstractMyxSimpleBrick implements IFileWriter
 {
     public static final IMyxName msg_IFileWriter = MyxUtils.createName("com.pla.chatsys.IFileWriter");

@@ -11,7 +11,6 @@ public class ChatHistoryArch extends AbstractMyxSimpleBrick implements IFileWrit
 {
     public static final IMyxName msg_IFileWriter = MyxUtils.createName("com.pla.chatsys.IFileWriter");
 
-
 	private IChatHistoryImp _imp;
 
     public ChatHistoryArch (){

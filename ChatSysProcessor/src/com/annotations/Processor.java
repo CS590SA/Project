@@ -137,7 +137,6 @@ public class Processor {
 							{
 								StringBuilder variable = new StringBuilder();
 								processBit = true;
-								//string cat = "calico"; then variable = "cat = "calico"; problem?
 								if (s.contains("=")){
 									s = s.substring(0, s.indexOf("=")).trim();
 									variable.append(s.substring(s.lastIndexOf(" "), s.length()).trim());
@@ -237,20 +236,22 @@ public class Processor {
 		return processBit;
 	}
 	
-	/*
-	 * in this method, features = files
-	 * The components added to hashmap are for mapping .java class files directly to ARGS
-	 * items listed in the 'features' variable are used in writing files to the output directory
-	 */
 	private static List<String> fillCollection(){
 		List<String> features = new ArrayList<String>();
 		HashMap<String,String> components = new HashMap<String, String>();
+		components.put("Settings", "Settings");
+		components.put("Map", "Map");
+		components.put("Attachment", "Attachment");
+		components.put("BGColor", "BGColor");
 		components.put("Game", "TTTGame");
-		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
+		components.put("Print", "Print");
+		components.put("Incognito", "Incognito");
+		components.put("Availability", "Availability");
 		components.put("History", "ChatHistory");
 		components.put("None", "None");
 		components.put("Image", "Image");
-		//components.put("Attachment", "Templet ");//problem here - other classes use Templet
+		components.put("ChatBot", "Bot"); //where is the actual chatbot feature in the app? is it used?
+		components.put("Template", "Template");
 		for(String values : ARGS)
 			features.add(components.get(values).toString());
 		

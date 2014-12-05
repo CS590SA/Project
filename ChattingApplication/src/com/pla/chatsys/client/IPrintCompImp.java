@@ -1,8 +1,9 @@
 package com.pla.chatsys.client;
 
 
-import com.pla.chatsys.client.PrinterArch;
+import com.pla.chatsys.annotation.ChattingAnnotation;
 
+@ChattingAnnotation(feature="Print", type="class")
 public interface IPrintCompImp 
 {
 

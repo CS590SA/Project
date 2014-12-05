@@ -7,8 +7,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import com.pla.chatsys.annotation.ChattingAnnotation;
 
 
+@ChattingAnnotation(feature="History", type="class")
 public class ChatHistoryImp implements IChatHistoryImp
 {
 	private ChatHistoryArch _arch;
@@ -52,20 +54,11 @@ public class ChatHistoryImp implements IChatHistoryImp
     	String date = " Sent on-" + dateFormat.format(cal.getTime());
 		String text = message;
 		String Msg = sender + ": " + text + date;	
-		
-		
-
 		BufferedWriter writer = null;
 		boolean status = false;
 	    try {
 	    	FileWriter fr = new FileWriter("./ChatHistory.txt",true);
 	    	writer = new BufferedWriter(fr);
-	    	//writer.newLine();
-	    	//Msg = Msg + "<br>";
-	    	
-	    	//byte[] byt =Encryptor.encrypt(Msg.getBytes());
-	    	//byte[] byt = base.encode(Msg.getBytes());
-	    	//writer.append(new String(byt));
 	    	writer.append(Msg);
 	    	writer.append("<br>");
 	    	writer.newLine();

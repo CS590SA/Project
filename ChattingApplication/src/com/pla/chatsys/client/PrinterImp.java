@@ -5,8 +5,10 @@ import java.awt.print.PrinterException;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 
+import com.pla.chatsys.annotation.ChattingAnnotation;
 
 
+@ChattingAnnotation(feature="Print", type="class")
 public class PrinterImp implements IPrintCompImp
 {
 	private PrinterArch _arch;
@@ -42,7 +44,6 @@ public class PrinterImp implements IPrintCompImp
   	  Implementation primitives required by the architecture
 	*/
   
-    
 	public void print(String str){
 		
 		JEditorPane transcript = new JEditorPane("text/html", "");
