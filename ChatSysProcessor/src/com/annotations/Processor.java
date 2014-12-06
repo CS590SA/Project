@@ -15,6 +15,7 @@ import java.util.List;
 
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
+
 public class Processor {
 	
 	static String targetFolder = "ChattingApplication";
@@ -91,8 +92,8 @@ public class Processor {
 			file.createNewFile();
 			while(reader.ready()){	
 				String s = reader.readLine();
-
-				if (s.contains("feature=\"Texting\", type=\"method\"")){
+				
+				if (s.contains("@ChattingAnnotation(feature=\"None\", type=\"Method\")")){
 					System.out.println();
 				}
 				if(annotated && !s.contains("@")){
@@ -224,15 +225,19 @@ public class Processor {
 	private static boolean canProcess(String line){
 		boolean processBit = true;
 		boolean foundAnnotationBit = false;
-		for(String lines: ARGS){
-			if(line.contains(lines))
-				foundAnnotationBit = true;
-		}
-		if(foundAnnotationBit){
+		if (line.contains("None"))
 			processBit = true;
-			foundAnnotationBit = false;
-		}else
-			processBit = false;
+		else{
+			for(String lines: ARGS){
+				if(line.contains(lines))
+					foundAnnotationBit = true;
+			}
+			if(foundAnnotationBit){
+				processBit = true;
+				foundAnnotationBit = false;
+			}else
+				processBit = false;
+		}
 		return processBit;
 	}
 	
