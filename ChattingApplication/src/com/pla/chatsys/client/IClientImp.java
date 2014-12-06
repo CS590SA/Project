@@ -28,7 +28,7 @@ public interface IClientImp
 	@ChattingAnnotation(feature="Availability", type="property")
     public void messageSent (String sender,String message)  ;        
   
-    
+    @ChattingAnnotation(feature="Attachment", type="property")
     public void fileSent (String sender,String fileName,byte[] fileData);        
     
     @ChattingAnnotation(feature="Image", type="property")

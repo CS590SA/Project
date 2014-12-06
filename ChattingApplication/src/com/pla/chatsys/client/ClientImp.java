@@ -403,6 +403,7 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 			_arch.OUT_IToolBar.sendColor(getTitle(), color.hashCode());
 		}
 	}
+	@ChattingAnnotation(feature="Attachment", type="method")
 	@Override
 	public void fileSent(String sender, String fileName, byte[] fileData) {
 		if (!sender.equals(this.getTitle())) {
