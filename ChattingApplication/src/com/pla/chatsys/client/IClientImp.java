@@ -29,23 +29,29 @@ public interface IClientImp
     public void messageSent (String sender,String message)  ;        
   
     
-    public void fileSent (String sender,String fileName,byte[] fileData)  ;        
+    public void fileSent (String sender,String fileName,byte[] fileData);        
+    
+    @ChattingAnnotation(feature="Image", type="property")
+    public void imageSent (String sender,String imageName,byte[] imageData);        
   
-    public void imageSent (String sender,String imageName,byte[] imageData)  ;        
+    @ChattingAnnotation(feature="Game", type="property")
+    public void myMove (int position);  
+    @ChattingAnnotation(feature="Game", type="property")
+    public void quit ();        
+  
+    @ChattingAnnotation(feature="Game", type="property")
+    public void gameStarted ();
+    @ChattingAnnotation(feature="Game", type="property")
+    public void gameEnded ();  
+    @ChattingAnnotation(feature="Game", type="property")
+    public void played (String sender,int position);        
   
     
-    public void myMove (int position)  ;        
-    public void quit ()  ;        
+    public void sendTemplet (String sender,String code);        
   
+    @ChattingAnnotation(feature="BGColor", type="property")
+    public void onColorReceived (int color);      
     
-    public void gameStarted ()  ;        
-    public void gameEnded ()  ;        
-    public void played (String sender,int position)  ;        
-  
-    
-    public void sendTemplet (String sender,String code)  ;        
-  
-    
-    public void onColorReceived (int color)  ;        
-    public void onLocationReceived (double lat,double lon)  ;        
+    @ChattingAnnotation(feature="Map", type="property")
+    public void onLocationReceived (double lat,double lon);        
 }

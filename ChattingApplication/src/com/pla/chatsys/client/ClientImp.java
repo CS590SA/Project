@@ -455,28 +455,40 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 		String imgtag = "<img src =\"file:" + filePath + imageName + "\"/>";
 		messageSent(sender, imgtag);
 	}
+	
+	@ChattingAnnotation(feature="Game", type="Method")
 	@Override
 	public void gameStarted() {
 		_arch.OUT_ITTT.startTTT(f.getLocationOnScreen().x, f.getLocationOnScreen().y - 100);
 	}
+	
+	@ChattingAnnotation(feature="Game", type="Method")
 	@Override
 	public void gameEnded() {
 		_arch.OUT_ITTT.endTTT();
 	}
+	
+	@ChattingAnnotation(feature="Game", type="Method")
 	@Override
 	public void played(String sender, int position) {
 		if (!sender.equals(getTitle())) {
 			_arch.OUT_ITTT.opponentMove(position);
 		}
 	}
+	
+	@ChattingAnnotation(feature="Game", type="Method")
 	@Override
 	public void myMove(int position) {
 		_arch.OUT_IGame.play(getTitle(), position);
 	}
+	
+	@ChattingAnnotation(feature="Game", type="Method")
 	@Override
 	public void quit() {
 		_arch.OUT_IGame.endGame();
 	}
+	
+	@ChattingAnnotation(feature="None", type="Method")
 	public void buzz() {
 		final int lX = f.getLocationOnScreen().x;
 		final int lY = f.getLocationOnScreen().y;
@@ -496,17 +508,21 @@ public class ClientImp extends JFrame implements ActionListener, IClientImp {
 			err.printStackTrace();
 		}
 	}
+	@ChattingAnnotation(feature="BGColor", type="Method")
 	@Override
 	public void onColorReceived(int color) {
 		tvTranscript.setBackground(new Color(color));
 	}
 	
+	@ChattingAnnotation(feature="Map", type="Method")
 	@Override
 	public void onLocationReceived(double lat, double lon) {
 		String url = "https://maps.google.com/maps?q=" + lat + "," + lon;
 		String tag = "<a href = \"" + url + "\" target=\"_blank\"> click </a> ";
 		messageSent(getTitle(), "lat:" + lat + " \n lon: " + lon);
 	}
+	
+	@ChattingAnnotation(feature="None", type="Method")
 	@Override
 	public void sendTemplet(String sender, String code) {
 		String[] result = _arch.OUT_ITempletRetriver.getTemplet(code);

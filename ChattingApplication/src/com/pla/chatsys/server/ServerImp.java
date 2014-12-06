@@ -12,6 +12,7 @@ public class ServerImp implements IServerImp {
 	public ServerImp() {}
 	public void setArch(ServerArch arch) {_arch = arch;}
 	public ServerArch getArch() {return _arch;}
+	
 	/*
 	 * Myx Lifecycle Methods: these methods are called automatically by the
 	 * framework as the bricks are created, attached, detached, and destroyed
@@ -28,9 +29,13 @@ public class ServerImp implements IServerImp {
 
 	// missing override? i think doesn't matter if we're making it mandatory anyway
 	public void sendMessage(String sender, String message) {
+		
+
 		if (_arch.OUT_IChatListener != null) {
 			_arch.OUT_IChatListener.messageSent(sender, message);
-			_arch.OUT_IFileWriter.writeMsg(sender, message);
+			
+			@ChattingAnnotation(feature="Attachment", type="property")
+			boolean writeMsg = _arch.OUT_IFileWriter.writeMsg(sender, message);
 		}
 	}
 
