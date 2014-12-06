@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 import javax.xml.crypto.dsig.keyinfo.KeyValue;
 
@@ -93,7 +94,7 @@ public class Processor {
 			while(reader.ready()){	
 				String s = reader.readLine();
 				
-				if (s.contains("@ChattingAnnotation(feature=\"None\", type=\"Method\")")){
+				if (s.contains("_arch.OUT_IFileWriter.writeMsg(sender, message)")){
 					System.out.println();
 				}
 				if(annotated && !s.contains("@")){
