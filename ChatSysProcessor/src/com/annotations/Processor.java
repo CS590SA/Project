@@ -54,7 +54,7 @@ public class Processor {
 	    for (final File fileEntry : folder.listFiles()) {
 	    	String filename = fileEntry.getName();
 	    	String filePath = fileEntry.getPath();
-	    	String filePathExtension = filePath.substring(filePath.indexOf(targetFolder), filePath.length());
+	    	String filePathExtension = filePath.substring(filePath.indexOf(targetFolder)+targetFolder.length(), filePath.length());
 	    	String targetPath = outputRoot + filePathExtension;
 	    	File targetFile = new File(targetPath);
 	    	String extension = filename.substring(filename.lastIndexOf(".") + 1, filename.length());
@@ -62,7 +62,8 @@ public class Processor {
 	        	if (fileEntry.isDirectory()){
 	        		System.out.println(fileEntry.getName());
 	        		if (doesListContain(fileEntry.getName(), features)){ //i anticipate a problem here
-		        		targetFile.mkdirs();
+		        		if(!targetFile.getName().contains("ChattingApplication"))
+	        				targetFile.mkdirs();
 		        		listFilesForFolder(fileEntry);
 	        		}
 	        	}else
